@@ -1,5 +1,5 @@
 {
-  "name": "markten-cashregister-app",
+  "name": "markten-cashregister-reactapp",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
