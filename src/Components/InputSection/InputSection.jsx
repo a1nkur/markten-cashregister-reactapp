@@ -3,6 +3,9 @@ import Button from "../UI/Button/Button";
 
 import ExchangeCal from "../../Utility";
 
+import { motion } from "framer-motion";
+import { fade, titleAnimate, genericAnimate } from "../../animate.js";
+
 const InputSection = ({
   billState,
   setBillState,
@@ -27,6 +30,7 @@ const InputSection = ({
   };
 
   const handleGivenAmtChange = e => {
+    setError(null);
     setGivenAmtState(prevState => {
       return {
         ...prevState,
@@ -52,14 +56,20 @@ const InputSection = ({
   };
 
   return (
-    <InputSectionContainer>
-      <h3>Cash Register Manager</h3>
-      <p>
+    <InputSectionContainer
+      variants={genericAnimate}
+      initial="hidden"
+      animate="show"
+    >
+      <Hide>
+        <motion.h3 variants={titleAnimate}>Cash Register Manager</motion.h3>
+      </Hide>
+      <motion.p variants={fade}>
         Enter the bill amount and cash given by the customer and know minimum
         number of notes to return.
-      </p>
+      </motion.p>
       <div className="input_field__container">
-        <InputControl>
+        <InputControl variants={fade}>
           <label htmlFor="bill-amount"> Bill Amount :</label>
           <input
             type="number"
@@ -67,13 +77,14 @@ const InputSection = ({
             id="billAmount"
             value={billState.amount}
             onChange={handleBillAmtChange}
+            required
           />
           {billState.showBillAmtBtn && (
             <Button type="button" text="Next" onClick={handleBillAmtBtnClick} />
           )}
         </InputControl>
         {billState.showCashGivenInputField && (
-          <InputControl>
+          <InputControl variants={fade}>
             <label htmlFor="cash-given"> Cash Given :</label>
             <input
               type="number"
@@ -81,6 +92,7 @@ const InputSection = ({
               id="cashGivenAmt"
               value={givenAmtState.amount}
               onChange={handleGivenAmtChange}
+              required
             />
             {givenAmtState.showProcessBtn && (
               <Button
@@ -93,7 +105,7 @@ const InputSection = ({
         )}
       </div>
       {error && (
-        <ErrorContainer>
+        <ErrorContainer variants={fade}>
           <h3>{error}</h3>
         </ErrorContainer>
       )}
@@ -104,22 +116,31 @@ const InputSection = ({
 export default InputSection;
 
 /* ---------------------------- Styled Components --------------------------- */
-const InputSectionContainer = styled.div`
+const InputSectionContainer = styled(motion.div)`
+  color: #fff;
+  background-color: #212227;
   flex: 0.4;
   padding: 2rem 1rem;
-  border-right: 0.1rem solid #aaa;
+
+  p {
+    color: #ccc;
+  }
 `;
 
-const InputControl = styled.div`
+const InputControl = styled(motion.div)`
   display: flex;
   flex-direction: column;
-  border: 1px solid #ccc;
+  border: 1px solid #d35269;
   padding: 0.5rem 1rem;
   margin: 1rem 0rem;
+  border-radius: 3px;
 
   input {
     margin-top: 0.5rem;
     padding: 0.5rem;
+    border-radius: 3px;
+    border-color: #212227;
+    outline: none;
 
     &:focus {
       border: 0.1rem solid lightblue;
@@ -128,8 +149,12 @@ const InputControl = styled.div`
   }
 `;
 
-const ErrorContainer = styled.div`
+const ErrorContainer = styled(motion.div)`
   text-align: center;
   padding-top: 2rem;
   color: #f25555;
+`;
+
+const Hide = styled.div`
+  overflow: hidden;
 `;

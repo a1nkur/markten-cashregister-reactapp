@@ -24,7 +24,7 @@ const StyledButton = styled.button`
   transition: all 0.3s ease;
 
   &:hover {
-    background: #000;
-    color: #fff;
+    background: #d35269;
+    color: #000;
   }
 `;

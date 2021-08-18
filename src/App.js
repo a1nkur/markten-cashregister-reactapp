@@ -79,7 +79,8 @@ const AppContainer = styled.div`
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background-color: #d4d4d4;
+  background-color: #fefdff;
+  background-color: #3c474b;
 `;
 
 const AppBody = styled.div`
