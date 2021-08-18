@@ -24,6 +24,8 @@ const InputSection = ({
     setBillState(prevState => {
       return {
         ...prevState,
+        showBillAmtBtn: true,
+
         [e.target.id]: e.target.value,
       };
     });
@@ -49,7 +51,9 @@ const InputSection = ({
     });
   };
 
-  const handleProcessOnClick = () => {
+  const handleProcessOnClick = e => {
+    e.preventDefault();
+
     const processedArr = ExchangeCal(exchangeInfo, amountToReturn, setError);
     console.log(processedArr);
     setExchangeInfo(processedArr);
@@ -69,40 +73,42 @@ const InputSection = ({
         number of notes to return.
       </motion.p>
       <div className="input_field__container">
-        <InputControl variants={fade}>
-          <label htmlFor="bill-amount"> Bill Amount :</label>
-          <input
-            type="number"
-            name="billAmount"
-            id="billAmount"
-            value={billState.amount}
-            onChange={handleBillAmtChange}
-            required
-          />
-          {billState.showBillAmtBtn && (
-            <Button type="button" text="Next" onClick={handleBillAmtBtnClick} />
-          )}
-        </InputControl>
-        {billState.showCashGivenInputField && (
+        <form onSubmit={handleProcessOnClick}>
           <InputControl variants={fade}>
-            <label htmlFor="cash-given"> Cash Given :</label>
+            <label htmlFor="bill-amount"> Bill Amount :</label>
             <input
               type="number"
-              name="cashGiven"
-              id="cashGivenAmt"
-              value={givenAmtState.amount}
-              onChange={handleGivenAmtChange}
+              name="billAmount"
+              id="billAmount"
+              value={billState.amount}
+              onChange={handleBillAmtChange}
               required
             />
-            {givenAmtState.showProcessBtn && (
+            {billState.showBillAmtBtn && (
               <Button
                 type="button"
-                text="process"
-                onClick={handleProcessOnClick}
+                text="Next"
+                onClick={handleBillAmtBtnClick}
               />
             )}
           </InputControl>
-        )}
+          {billState.showCashGivenInputField && (
+            <InputControl variants={fade}>
+              <label htmlFor="cash-given"> Cash Given :</label>
+              <input
+                type="number"
+                name="cashGiven"
+                id="cashGivenAmt"
+                value={givenAmtState.amount}
+                onChange={handleGivenAmtChange}
+                required
+              />
+              {givenAmtState.showProcessBtn && (
+                <Button type="submit" text="process" />
+              )}
+            </InputControl>
+          )}
+        </form>
       </div>
       {error && (
         <ErrorContainer variants={fade}>

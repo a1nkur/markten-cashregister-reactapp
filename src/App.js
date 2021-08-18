@@ -40,7 +40,7 @@ function App() {
 
   const [billState, setBillState] = useState({
     billAmount: "",
-    showBillAmtBtn: true,
+    showBillAmtBtn: false,
     showCashGivenInputField: false,
   });
 
